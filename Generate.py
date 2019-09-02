@@ -1,3 +1,6 @@
+from random import uniform
+
+
 class Generate:
     def __init__(self, model):
         self.model = model
@@ -22,9 +25,11 @@ class Generate:
 
     @staticmethod
     def get_rand_word(model):
-        sum_of_w = 0
+        sum_of_w, sum_of_w2 = 0, 0
         for word, w in model:
-            sum_of_w = w
+            sum_of_w += w
+        random = uniform(0, sum_of_w)
         for word, w in model:
-            if w == sum_of_w:
+            sum_of_w2 += w
+            if random < sum_of_w2:
                 return word

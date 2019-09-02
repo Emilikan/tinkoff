@@ -15,7 +15,7 @@ def test(a):
         print(model)
 
 
-class Train(object):
+class Train:
     def __init__(self, file_path):
         self.lines = self.get_file(file_path)
         self.words = self.get_words(self.lines)
@@ -26,7 +26,8 @@ class Train(object):
 
     r_compile = re.compile(u'[а-яА-Я]+|[.!?]+')
 
-    def create(self, bigrams):
+    @staticmethod
+    def create(bigrams):
         one, two = defaultdict(lambda: 0), defaultdict(lambda: 0)
         for default1, default2 in bigrams:
             one[default1] += 1
@@ -41,7 +42,8 @@ class Train(object):
                 model[default1] = [(default2, 0)]
         return model
 
-    def get_bigrams(self, words):
+    @staticmethod
+    def get_bigrams(words):
         # знак '^' - начало предложения
         default1 = '^'
         # разделяем текст на связки по 2 слова. Разделяем и предложения
@@ -58,9 +60,13 @@ class Train(object):
             for word in self.r_compile.findall(line):
                 yield word
 
-    def get_file(self, file_path):
+    @staticmethod
+    def get_file(file_path):
         # открываем файл
         file = open(file_path)
         # нижний регистр
         for line in file:
             yield line.lower()
+
+
+test(1)
