@@ -17,6 +17,7 @@ def test(a):
 
 class Train:
     def __init__(self, file_path):
+        self.file_path = file_path
         self.lines = self.get_file(file_path)
         self.words = self.get_words(self.lines)
         self.bigrams = self.get_bigrams(self.words)
@@ -25,6 +26,45 @@ class Train:
         return self.create(self.bigrams)
 
     r_compile = re.compile(u'[а-яА-Я]+|[.!?]+')
+
+    @staticmethod
+    def get_default_w(bigrams):
+        default_w = 0.0
+        for _ in bigrams:
+            default_w += 1
+        return default_w
+
+    def auto_refactoring_for_bigrams(self):
+        m_dict = {}
+
+        default_w = self.get_default_w(self.bigrams)
+
+        lines = self.get_file(self.file_path)
+        words = self.get_words(lines)
+        bigrams = self.get_bigrams(words)
+
+        for bigram in bigrams:
+            new_dict = {}
+            if m_dict.get(bigram[0], 0) == 0:
+                # если элемента нет, то мы добавлям элемент
+                w = 1/default_w
+                new_dict[bigram[1]] = w
+                m_dict[bigram[0]] = new_dict
+            else:
+                # если элемент есть, то у нас 2 случая
+                old_dict = m_dict[bigram[0]]
+                if old_dict.get(bigram[1], 0) == 0:
+                    # если мы добавляем новое связное слово
+                    w = 1/default_w
+                    old_dict[bigram[1]] = w
+                    m_dict[bigram[0]] = old_dict
+                else:
+                    # если мы добавляем старое следующее слово, то считаем новую вероятность выпадения
+                    w = 1/default_w + old_dict[bigram[1]]
+                    old_dict[bigram[1]] = w
+                    m_dict[bigram[0]] = old_dict
+
+        return m_dict
 
     @staticmethod
     def create(bigrams):
