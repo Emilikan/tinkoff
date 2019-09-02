@@ -12,12 +12,10 @@ class Generate:
             default1 = self.get_rand_word1(self.model[default1])
             if default1 == '^':
                 break
-
-            if default1 == '.' or default1 == '!' or default1 == '?':
+            elif default1 == '.' or default1 == '!' or default1 == '?':
                 text += default1
                 break
-
-            if default1:
+            elif default1:
                 text += ' ' + default1
             else:
                 default1 = '^'
@@ -56,12 +54,14 @@ class Generate:
         default = '^'
         while 1:
             default = self.get_rand_word2(self.model[default])
-            if default == '.' or default == '!' or default == '?':
-                text += default
-                break
             if default == '^':
                 break
-            if default:
+            elif default == '.' or default == '!' or default == '?':
+                text += default
+                break
+            elif default == ',':
+                text += default
+            elif default:
                 text += ' ' + default
             else:
                 default = '^'

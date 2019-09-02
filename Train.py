@@ -25,7 +25,7 @@ class Train:
     def get_model(self):
         return self.create(self.bigrams)
 
-    r_compile = re.compile(u'[а-яА-Я]+|[.!?]+')
+    r_compile = re.compile(u'[а-яА-Я]+|[.!?,]+')
 
     @staticmethod
     def get_default_w(bigrams):
@@ -89,7 +89,7 @@ class Train:
         # разделяем текст на связки по 2 слова. Разделяем и предложения
         for default2 in words:
             yield default1, default2
-            if default2 == '.':
+            if default2 == '.' or default2 == '!' or default2 == '?':
                 default1 = '^'
             else:
                 default1 = default2
