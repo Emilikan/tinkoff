@@ -22,7 +22,7 @@ class Generate:
         return text
 
     @staticmethod
-    def get_rand_word(model):
+    def get_rand_word1(model):
         m_word = ''
         sum_of_w, sum_of_w2 = 0, 0
         for word, w in model:

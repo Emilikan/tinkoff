@@ -25,7 +25,7 @@ class Train:
     def get_model(self):
         return self.create(self.bigrams)
 
-    r_compile = re.compile(u'[а-яА-Я]+|[.!?,]+')
+    r_compile = re.compile(u'[а-яА-Я]+|[.!?]+')
 
     @staticmethod
     def get_default_w(bigrams):
